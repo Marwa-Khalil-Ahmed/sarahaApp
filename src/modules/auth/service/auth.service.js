@@ -31,3 +31,29 @@ export const passwordOTP = asyncHandler(
         return successResponse({ res, message: "OTP sent to your email" })
     }
 );
+
+export const confirmEmailByOTP = asyncHandler(async (req, res, next) => {
+  const { email, otp } = req.body;
+
+  try {
+    await emailEvent.emit("verifyOTP", { email, otp });
+    
+    const user = await userModel.findOneAndUpdate(
+      { email },
+      { confirmEmail: true },
+      { new: true }
+    );
+
+    if (!user) {
+      return next(new Error("User not found", { cause: 404 }));
+    }
+
+    return successResponse({
+      res,
+      message: "Email verified successfully",
+      data: { user },
+    });
+  } catch (err) {
+    return next(new Error(err.message, { cause: 400 }));
+  }
+});

@@ -47,7 +47,11 @@ const userSchema = new Schema({
     },
     otp: String,
     otpExpire: Date
-
+    otpFailedAttempts: {
+      type: Number,
+      default: 0,
+    },
+    otpBanUntil: Date,
 }, { timestamps: true });
 
 const userModel = mongoose.models.User || model('User', userSchema);

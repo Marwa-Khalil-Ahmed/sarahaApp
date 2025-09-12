@@ -33,7 +33,7 @@ export const login = asyncHandler(
         const token = generateToken({
             payload: { id: user._id, isLoggedIn: true },
             signature: user.role == roleTypes.User ? process.env.TOKEN_SIGNATURE : process.env.TOKEN_SIGNATURE_ADMIN,
-            options: { expiresIn: '2M' }
+            options: { expiresIn: '1h' }
         })
 
         return successResponse({ res, data: { token } });

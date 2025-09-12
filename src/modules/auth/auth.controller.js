@@ -15,6 +15,6 @@ router.post("/login", validation(validators.login), loginService.login);
 
 router.post('/forgot-password', validation(validators.sendOtpEmail), authService.passwordOTP);
 router.post('/reactivate-account', validation(validators.sendOtpEmail), authService.reactivationOTP);
-
+router.post('/confirm-email-by-OTP', validation(validators.sendOtpEmail), authService.confirmEmailByOTP);
 
 export default router
